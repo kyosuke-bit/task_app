@@ -1,0 +1,56 @@
+<!--<h1>Posts#index</h1>-->
+<!--<p>Find me in app/views/posts/index.html.erb</p>-->
+
+<div class="main_container">
+    <h2>スケジュール一覧</h2>
+    
+    <% if flash.notice %>
+        <p class="alert alert_success"><%= flash.notice %></p>
+    <% end %>
+    <% if flash.alert %>
+        <p class="alert alert_delete"><%= flash.alert %></p>
+    <% end %>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>タイトル</th>
+                <th>開始日</th>
+                <th>終了日</th>
+                <th>終日</th>
+                <th>スケジュール更新日時</th>
+                <th>確認</th>
+                <th>編集</th>
+                <th>削除</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @posts.each do |post| %>
+                <tr>
+                    <td><%= post.id %></td>
+                    <td><%= post.title %></td>
+                    <td><%= post.start_date.strftime('%Y月%m日%d日') %></td>
+                    <td><%= post.end_date.strftime('%Y月%m日%d日') %></td>
+                    <% if post.all_day == "1" %>
+                            <td>○</td>
+                        <% else %>
+                            <td></td>
+                        <% end %>
+                    <td><%= post.updated_at.to_s(:datetime_jp) %></td>
+                    <td>
+                        <%= link_to "確認", post %>
+                    </td>
+                    <td>
+                        <%= link_to "編集", [:edit, post] %>
+                    </td>
+                    <td>
+                        <%= link_to "削除", post, method: :delete, data: { confirm: "本当に削除しますか？" } %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+    
+    <p><%= link_to "スケジュール新規登録", :new_post %></p>
+</div>
